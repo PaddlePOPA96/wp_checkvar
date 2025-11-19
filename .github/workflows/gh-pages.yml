@@ -29,13 +29,11 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Build and export
+      - name: Build (static export)
         env:
           GITHUB_ACTIONS: true
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: |
-          npm run build
-          npx next export
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -52,4 +50,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
