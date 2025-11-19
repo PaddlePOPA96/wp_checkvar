@@ -40,3 +40,14 @@
 .hero-marquee--secondary { top: 60%; }
 
 /* Black layer (section 3) inherited from globals if present */
+.signature-overlay { position: absolute; 
+    top: 50%; left: 50%; 
+    transform: translate(-50%, -50%)rotate(-10deg); 
+    width: min(900px, 85vw); height: auto; z-index: 5;
+    pointer-events: none; opacity: 0;
+    transition: opacity .35s ease; }
+.signature-overlay[data-active="1"] { opacity: 0.95; }
+.signature-overlay svg { width: 100%; height: auto; overflow: visible; }
+@keyframes sig-draw { from { stroke-dashoffset: var(--sig-start, 600); } to { stroke-dashoffset: 0; } }
+@keyframes sig-glow { from { filter: drop-shadow(0 0 0px rgba(250,204,21,0.0)); } to { filter: drop-shadow(0 0 8px rgba(250,204,21,0.35)); } }
+@keyframes sig-fill { from { fill-opacity: 0; } to { fill-opacity: 0.85; } }

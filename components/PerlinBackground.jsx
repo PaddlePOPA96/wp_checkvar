@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { startPerlinTopography } from "../lib/perlinTopography";
+import { PERLIN_LINE_COLOR } from "../config/ui";
 
 export default function PerlinBackground() {
   const canvasRef = useRef(null);
@@ -11,8 +12,7 @@ export default function PerlinBackground() {
     if (!canvas) return;
 
     const cleanup = startPerlinTopography(canvas, {
-      // Samakan warna garis dengan section lain
-      lineColor: "rgb(15, 106, 22)",
+      lineColor: PERLIN_LINE_COLOR,
     });
 
     return () => {

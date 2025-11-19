@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { startPerlinTopography } from "../lib/perlinTopography";
+import { PERLIN_LINE_COLOR } from "../config/ui";
 
 export default function NextSection() {
   const canvasRef = useRef(null);
@@ -16,7 +17,7 @@ export default function NextSection() {
     };
     // Samakan warna garis dengan section lain dan observe ukuran parent
     const cleanup = startPerlinTopography(canvas, {
-      lineColor: "rgba(255,255,255,0.22)",
+      lineColor: PERLIN_LINE_COLOR,
       getSize,
       observeElement: canvas.parentElement || undefined,
     });

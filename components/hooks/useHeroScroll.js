@@ -22,6 +22,8 @@ export default function useHeroScroll(rangeRef, heroBoxRef, { disableGoo, enable
       const start = range.offsetTop;
       const y = window.scrollY - start;
       const p = Math.min(Math.max(y / vh, 0), 1); // 0..1 for first viewport
+      // Expose progress to dependents (e.g., signature overlay)
+      try { hero.style.setProperty('--heroP', String(p)); } catch (_) {}
       const scale = 1 - 0.2 * easeOutCubic(p);
       const radius = 24 * p;
       hero.style.transform = `scale(${scale})`;
@@ -67,4 +69,3 @@ export default function useHeroScroll(rangeRef, heroBoxRef, { disableGoo, enable
     };
   }, [rangeRef, heroBoxRef, disableGoo, enableGoo]);
 }
-

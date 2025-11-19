@@ -7,6 +7,8 @@ import useHeroScroll from "./hooks/useHeroScroll";
 import NextSection from "./NextSection";
 import MembersSection from "./MembersSection";
 import useCounterZoom from "./hooks/useCounterZoom";
+import SignatureOverlay from "./SignatureOverlay";
+import { MARQUEE_TEXTS } from "../config/ui";
 
 export default function Hero() {
   const rangeRef = useRef(null); // wrapper 2 layar (section 1 + section 2)
@@ -22,14 +24,14 @@ export default function Hero() {
         {/* Range 2 layar: Section 1 (full) + Section 2 (80%) */}
         <div className="hero-scroll-range" ref={rangeRef}>
           <div className="hero-sticky">
-          {/* Marquee di belakang container hero */}
+            {/* Marquee di belakang container hero */}
           {/* Baris 1: kanan → kiri, posisikan di tengah */}
           <div className="hero-marquee hero-marquee--primary" aria-hidden>
-            <div className="hero-marquee__track hero-marquee__track--rtl">#GGMU #BARCA DECUL #CHECKVARNOW</div>
+            <div className="hero-marquee__track hero-marquee__track--rtl">{MARQUEE_TEXTS.primary}</div>
           </div>
           {/* Baris 2: kiri → kanan, geser sedikit di bawah tengah */}
           <div className="hero-marquee hero-marquee--secondary" aria-hidden>
-            <div className="hero-marquee__track hero-marquee__track--ltr">#BAHLIL #PERTAMAX # TULUNG #RI33</div>
+            <div className="hero-marquee__track hero-marquee__track--ltr">{MARQUEE_TEXTS.secondary}</div>
           </div>
           <div className="hero-box" ref={heroBoxRef}>
             <div className="hero-box-inner">
@@ -54,6 +56,8 @@ export default function Hero() {
                 </defs>
                 <image href="/images/scene1.png" width="100%" height="100%" mask="url(#liquidMask)" preserveAspectRatio="xMidYMid slice" />
               </svg>
+              {/* Signature overlay di tengah hero-box */}
+              <SignatureOverlay heroRef={heroBoxRef} />
               {/* Overlay hijau gelap dengan blur saat goo dimatikan */}
               <div className="hero-overlay" aria-hidden />
             </div>

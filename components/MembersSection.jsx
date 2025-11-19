@@ -1,8 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import useCounterZoom from "./hooks/useCounterZoom";
+import MemberCard from "./members/MemberCard";
+import { MEMBERS } from "../config/ui";
 
 function ImageWithFallback({ src, fallback, alt, className }) {
   const [current, setCurrent] = useState(src);
@@ -21,12 +22,6 @@ function ImageWithFallback({ src, fallback, alt, className }) {
 export default function MembersSection() {
   const zoomRef = useRef(null);
   useCounterZoom(zoomRef);
-  const members = [
-    { name: "Member 1", role: "", src: "/images/hui.png", fallback: "/images/members/hui.png" },
-    { name: "Member 2", role: "", src: "/images/owen.png", fallback: "/images/members/owen.png" },
-    { name: "Member 3", role: "", src: "/images/member3.jpg", fallback: "/images/members/member3.svg" },
-    { name: "Member 4", role: "", src: "/images/member4.jpg", fallback: "/images/members/member4.svg" },
-  ];
 
   // Perlin lokal dihapus untuk menghindari dobel; kita blur perlin global saja
 
@@ -47,16 +42,8 @@ export default function MembersSection() {
         </div>
         <h2 className="sr-only">OUR MEMBER</h2>
         <div className="members-grid">
-          {members.map((m, i) => (
-            <article className="member-card" key={i}>
-              <div className="member-image-wrap">
-                <ImageWithFallback src={m.src} fallback={m.fallback} alt={m.name} className="member-image" />
-              </div>
-              <div className="member-info">
-                <h3 className="member-name">{m.name}</h3>
-                {m.role ? <p className="member-role">{m.role}</p> : null}
-              </div>
-            </article>
+          {MEMBERS.map((m, i) => (
+            <MemberCard member={m} key={i} />
           ))}
         </div>
       </div>
