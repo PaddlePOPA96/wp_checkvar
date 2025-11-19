@@ -34,8 +34,12 @@ export default function Hero() {
           </div>
           <div className="hero-box" ref={heroBoxRef}>
             <div className="hero-box-inner">
-              <Image src="/images/bg.jpg" alt="Locker room" fill className="hero-box-bg" priority />
-              <Image src="/images/scene.png" alt="Scene base" fill className="hero-box-scene" priority />
+              {(() => { const base = process.env.NEXT_PUBLIC_BASE_PATH || ""; return (
+                <>
+                  <Image src={`${base}/images/bg.jpg`} alt="Locker room" fill className="hero-box-bg" priority unoptimized />
+                  <Image src={`${base}/images/scene.png`} alt="Scene base" fill className="hero-box-scene" priority unoptimized />
+                </>
+              ); })()}
               {/* SVG goo removed; FluidReveal handles reveal */}
               {/* Fluid reveal (lightweight mask driven by 2D canvas) */}
               <FluidReveal heroRef={heroBoxRef} />
