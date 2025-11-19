@@ -25,6 +25,21 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Global Perlin blur overlay: blur visible from the very top, increasing downward */
+.global-perlin-blur {
+  position: fixed;
+  inset: 0;
+  z-index: 1; /* above Perlin canvas, below page content */
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  /* Two-layer gradient: dark base (semi-transparent) + white tint
+     so Perlin lines remain visible while overall tone is consistent */
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.10) 30%, rgba(255,255,255,0.08) 60%, rgba(255,255,255,0.06) 100%),
+    linear-gradient(to bottom, rgba(15,23,42,0.65) 0%, rgba(31,41,55,0.65) 100%);
+}
+
 
 /* === HERO SECTION CHECKVAR === */
 

@@ -1,21 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import useGooAnimation from "./hooks/useGooAnimation";
 import useHeroScroll from "./hooks/useHeroScroll";
+import NextSection from "./NextSection";
+import MembersSection from "./MembersSection";
+import useCounterZoom from "./hooks/useCounterZoom";
 
 export default function Hero() {
   const rangeRef = useRef(null); // wrapper 2 layar (section 1 + section 2)
   const heroBoxRef = useRef(null); // satu-satunya hero
+  const heroZoomRef = useRef(null);
   const { disableGoo, enableGoo } = useGooAnimation(heroBoxRef);
   useHeroScroll(rangeRef, heroBoxRef, { disableGoo, enableGoo });
+  useCounterZoom(heroZoomRef);
 
   return (
     <section className="hero-sticky-root">
-      {/* Range 2 layar: Section 1 (full) + Section 2 (80%) */}
-      <div className="hero-scroll-range" ref={rangeRef}>
-        <div className="hero-sticky">
+      <div ref={heroZoomRef}>
+        {/* Range 2 layar: Section 1 (full) + Section 2 (80%) */}
+        <div className="hero-scroll-range" ref={rangeRef}>
+          <div className="hero-sticky">
           {/* Marquee di belakang container hero */}
           {/* Baris 1: kanan → kiri, posisikan di tengah */}
           <div className="hero-marquee hero-marquee--primary" aria-hidden>
@@ -54,14 +60,13 @@ export default function Hero() {
           </div>
         </div>
       </div>
+      </div>
 
-      {/* Section 3: Layer hitam setelah hero */}
-      <section className="layer-black-section">
-        <div className="max-w-2xl">
-          <h1>Section berikutnya 🚀</h1>
-          <p>Ini layer setelah jumbotron 80%.</p>
-        </div>
-      </section>
+      {/* Section 3: Our Member cards */}
+      <MembersSection />
+
+      {/* Section 4: Layer khusus dengan Perlin abu-abu */}
+      <NextSection />
     </section>
   );
 }

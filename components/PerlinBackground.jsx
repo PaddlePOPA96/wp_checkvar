@@ -10,7 +10,10 @@ export default function PerlinBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const cleanup = startPerlinTopography(canvas);
+    const cleanup = startPerlinTopography(canvas, {
+      // Samakan warna garis dengan section lain
+      lineColor: "rgb(15, 106, 22)",
+    });
 
     return () => {
       if (cleanup) cleanup();
