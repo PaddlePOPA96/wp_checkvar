@@ -12,7 +12,8 @@ export default function SignatureOverlay({ heroRef }) {
     let cancelled = false;
     async function load() {
       try {
-        const res = await fetch("/images/signature.svg");
+        const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
+        const res = await fetch(`${base}/images/signature.svg`);
         const txt = await res.text();
         if (cancelled) return;
         const el = containerRef.current;
