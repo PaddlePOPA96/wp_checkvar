@@ -14,8 +14,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+      --background: #000000;
+      --foreground: #ededed;
   }
 }
 
@@ -24,3 +24,297 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/* === HERO SECTION CHECKVAR === */
+
+.hero {
+  position: relative;
+  z-index: 1;           /* 🔥 Hero di atas Perlin */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+  color: #f9fafb;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-bg-img {
+  object-fit: cover;
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 0%, rgba(0, 0, 0, 0.4), transparent 55%),
+    radial-gradient(circle at 80% 0%, rgba(0, 0, 0, 0.6), transparent 60%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.95));
+  z-index: 1;
+}
+
+/* layout isi */
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.hero-text {
+  max-width: 480px;
+}
+
+.hero-kicker {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a5b4fc;
+  margin-bottom: 0.75rem;
+}
+
+.hero-title {
+  font-size: clamp(2.3rem, 4vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #e5e7eb;
+  margin-bottom: 1.75rem;
+}
+
+/* toggle button */
+.hero-toggle {
+  display: inline-flex;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.hero-toggle-btn {
+  border: none;
+  background: transparent;
+  color: #cbd5f5;
+  font-size: 0.85rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s ease-out;
+  white-space: nowrap;
+}
+
+.hero-toggle-btn--active {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #0b1120;
+  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.8),
+    0 12px 25px rgba(22, 163, 74, 0.5);
+}
+
+.hero-toggle-btn:not(.hero-toggle-btn--active):hover {
+  color: #e5e7eb;
+}
+
+/* gambar figure */
+.hero-figure {
+  position: relative;
+}
+
+.hero-figure-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 26px 45px rgba(0, 0, 0, 0.65));
+}
+
+/* ===== LIQUID HERO CHECKVAR ===== */
+
+.liquid-hero {
+  position: relative;
+  z-index: 2; /* di atas canvas perlin (yang z-index: 0) */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* HERO sudah terangkat sepenuhnya */
+.hero--gone {
+  opacity: 0;
+  transform: scale(0.8) translateY(-100vh);
+  visibility: hidden; /* hindari painting, tanpa mengubah layout drastis */
+  pointer-events: none;
+}
+
+/* Matikan transition saat state gone untuk cegah kedip */
+#hero-box.hero--gone {
+  transition: none !important;
+}
+
+
+
+.liquid-container {
+  position: relative;
+  width: min(1100px, 100vw);
+  aspect-ratio: 1851 / 953;
+  overflow: hidden;
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+/* bg.jpg di dalam container */
+.liquid-bg-img {
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* scene base (scene.png) */
+.scene-back {
+  object-fit: contain;
+  z-index: 2;
+}
+
+/* SVG liquid */
+.liquid-svg {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+}
+
+.liquid-container {
+  background-color: #000; /* fallback */
+}
+
+/* Root versi sederhana: 3 section (full, 80%, black) */
+.hero-simple-root {
+  position: relative;
+  z-index: 3; /* di atas canvas perlin */
+}
+
+/* Hapus sticky model lama; layout biasa di tiap section */
+
+/* Saat hero selesai, lepas sticky dan collapse tingginya */
+/* Tidak perlu collapse tinggi pin; biarkan menjadi spacer stabil */
+
+/* Box hero generik */
+.hero-box {
+  position: relative;
+  width: 100vw;   /* full screen untuk section 1 */
+  height: 100vh;  /* full screen untuk section 1 */
+  overflow: hidden;
+  transform: scale(1);
+  border-radius: 0;
+  opacity: 1;
+  margin: 0;      /* pusat karena sticky container sudah center */
+}
+
+
+
+/* isi hero box (background + scene + liquid) */
+.hero-box-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* pakai bg locker room sebagai background container */
+.hero-box-bg {
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* scene base (scene.png) */
+.hero-box-bg,
+.hero-box-scene {
+  object-fit: cover;  /* tadinya contain */
+  z-index: 2;
+}
+
+/* LIQUID overlay (scene1) */
+.hero-liquid-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  transition: opacity 0.25s ease-out;
+}
+
+/* section pemicu scroll scale + lift */
+.trigger-section {
+  position: relative;
+  width: 100%;
+}
+
+/* Section hitam (3) */
+.layer-black-section {
+  min-height: 120vh;
+  background-color: #141414;
+  color: #f9fafb;
+  padding: clamp(48px, 12vh, 120px) 1.5rem 4rem;
+}
+
+/* Section wrapper */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* Section 1: full */
+.hero-full .hero-box {
+  transform: scale(1);
+  border-radius: 0;
+}
+
+/* Section 2: 80% */
+.hero-box--compact {
+  transform: scale(0.8);
+  border-radius: 24px;
+}
+
+
+/* responsif */
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-text {
+    margin: 0 auto;
+  }
+
+  .hero-toggle {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+}
+/* (moved) hero + marquee styles are now in app/hero.css */

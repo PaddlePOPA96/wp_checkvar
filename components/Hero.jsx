@@ -1,0 +1,67 @@
+"use client";
+
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+import useGooAnimation from "./hooks/useGooAnimation";
+import useHeroScroll from "./hooks/useHeroScroll";
+
+export default function Hero() {
+  const rangeRef = useRef(null); // wrapper 2 layar (section 1 + section 2)
+  const heroBoxRef = useRef(null); // satu-satunya hero
+  const { disableGoo, enableGoo } = useGooAnimation(heroBoxRef);
+  useHeroScroll(rangeRef, heroBoxRef, { disableGoo, enableGoo });
+
+  return (
+    <section className="hero-sticky-root">
+      {/* Range 2 layar: Section 1 (full) + Section 2 (80%) */}
+      <div className="hero-scroll-range" ref={rangeRef}>
+        <div className="hero-sticky">
+          {/* Marquee di belakang container hero */}
+          {/* Baris 1: kanan → kiri, posisikan di tengah */}
+          <div className="hero-marquee hero-marquee--primary" aria-hidden>
+            <div className="hero-marquee__track hero-marquee__track--rtl">#GGMU #BARCA DECUL #CHECKVARNOW</div>
+          </div>
+          {/* Baris 2: kiri → kanan, geser sedikit di bawah tengah */}
+          <div className="hero-marquee hero-marquee--secondary" aria-hidden>
+            <div className="hero-marquee__track hero-marquee__track--ltr">#BAHLIL #PERTAMAX # TULUNG #RI33</div>
+          </div>
+          <div className="hero-box" ref={heroBoxRef}>
+            <div className="hero-box-inner">
+              <Image src="/images/bg.jpg" alt="Locker room" fill className="hero-box-bg" priority />
+              <Image src="/images/scene.png" alt="Scene base" fill className="hero-box-scene" priority />
+              <svg viewBox="0 0 1851 953" preserveAspectRatio="xMidYMid meet" className="hero-liquid-svg">
+                <defs>
+                  <filter id="goo">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+                    <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -15" />
+                    <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+                  </filter>
+                  <mask id="liquidMask">
+                    <rect width="100%" height="100%" fill="black" />
+                    <g filter="url(#goo)" fill="white">
+                      <ellipse cx="0" cy="-300" rx="170" ry="0" className="drip" data-ry="680" />
+                      <ellipse cx="0" cy="-300" rx="140" ry="0" className="drip" data-ry="720" />
+                      <ellipse cx="0" cy="-300" rx="200" ry="0" className="drip" data-ry="650" />
+                      <ellipse cx="0" cy="-300" rx="110" ry="0" className="drip" data-ry="750" />
+                    </g>
+                  </mask>
+                </defs>
+                <image href="/images/scene1.png" width="100%" height="100%" mask="url(#liquidMask)" preserveAspectRatio="xMidYMid slice" />
+              </svg>
+              {/* Overlay hijau gelap dengan blur saat goo dimatikan */}
+              <div className="hero-overlay" aria-hidden />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 3: Layer hitam setelah hero */}
+      <section className="layer-black-section">
+        <div className="max-w-2xl">
+          <h1>Section berikutnya 🚀</h1>
+          <p>Ini layer setelah jumbotron 80%.</p>
+        </div>
+      </section>
+    </section>
+  );
+}
