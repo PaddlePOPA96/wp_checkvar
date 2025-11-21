@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" role="img" aria-label="CHECK VAR NOW text art">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f6e9d0"/>
+      <stop offset="100%" stop-color="#eed9b5"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feOffset dx="14" dy="16" in="SourceAlpha" result="off" />
+      <feGaussianBlur in="off" stdDeviation="2.5" result="blur" />
+      <feComponentTransfer in="blur" result="shadow">
+        <feFuncA type="linear" slope="0.65" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode in="shadow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="900" height="400" fill="url(#bg)" />
+  <g font-family="Impact, Haettenschweiler, 'Arial Black', sans-serif"
+     font-weight="800"
+     font-size="128"
+     letter-spacing="2"
+     fill="#fdf5e3"
+     stroke="#2a1708"
+     stroke-width="8"
+     filter="url(#shadow)">
+    <text x="80" y="180">CHECK VAR</text>
+    <text x="80" y="310">NOW</text>
+  </g>
+</svg>

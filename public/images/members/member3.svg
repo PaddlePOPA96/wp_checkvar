@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640" role="img" aria-label="Member placeholder">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="640" rx="32" fill="url(#g)" />
+  <circle cx="320" cy="240" r="120" fill="#111827" stroke="#e5e7eb" stroke-width="10" />
+  <path d="M160 520c24-96 104-140 160-140s136 44 160 140" fill="#0b1220" stroke="#e5e7eb" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="280" cy="220" r="20" fill="#e5e7eb"/>
+  <circle cx="360" cy="220" r="20" fill="#e5e7eb"/>
+  <path d="M290 280c12 14 48 14 60 0" stroke="#e5e7eb" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <text x="50%" y="600" text-anchor="middle" fill="#9ca3af" font-family="Arial, sans-serif" font-size="32" letter-spacing="4">CHECKVAR MEMBER</text>
+</svg>

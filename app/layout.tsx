@@ -3,6 +3,7 @@ import "./globals.css";
 import "./hero.css";
 import "./sections.css";
 import PerlinBackground from "../components/PerlinBackground";
+import AnimatedLogo from "../components/AnimatedLogo";
 
 export const metadata = {
   title: "WEB PROFILE CHECKVAR",
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Global blur overlay on Perlin background (top -> bottom stronger) */}
         <div className="global-perlin-blur" aria-hidden />
         <div style={{ position: "relative", zIndex: 2 }}>
+          <AnimatedLogo />
           {children}
         </div>
       </body>
