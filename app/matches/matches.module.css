@@ -1,0 +1,131 @@
+.container {
+  height: 100vh;
+  background-color: transparent;
+  overflow: hidden;
+  padding: 24px;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.header a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+.muted {
+  color: #6b7280;
+  font-size: 13px;
+  margin: 0 0 6px;
+}
+.hint {
+  margin: 0;
+  color: #0f172a;
+  background:transparent;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+.section {
+  background:transparent;
+  backdrop-filter: blur(6px);
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+}
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.heading {
+  margin: 0;
+  font-size: 18px;
+}
+.tag {
+  font-size: 12px;
+  color: #475569;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, 1fr);
+  gap: 12px;
+  overflow: hidden;
+}
+.card {
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+  opacity: 0;
+  transform: translateX(40px);
+  animation: slide-left 0.7s ease-out forwards;
+}
+.meta {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #0f172a;
+  font-weight: 700;
+}
+.pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4f46e5;
+}
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.team {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.team img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.team span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.score {
+  font-weight: 700;
+  font-size: 18px;
+}
+@keyframes slide-left {
+  from { opacity: 0; transform: translateX(45px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (max-width: 768px) {
+  .container { padding: 18px; }
+  .section { padding: 12px; }
+  .grid { grid-auto-columns: minmax(220px, 1fr); }
+}

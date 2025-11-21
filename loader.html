@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>CHEKVARNOW Loader</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #080a0d;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Montserrat", sans-serif;
+    }
+
+    .loader-wrapper {
+      position: relative;
+      display: inline-block;
+      padding: 10px 60px 40px; /* atas dikurang supaya bola lebih dekat */
+    }
+
+    .word {
+      position: relative;
+      font-size: 48px;
+      letter-spacing: 0.18em;
+    }
+
+    .letter {
+      position: relative;
+      display: inline-block;
+      opacity: 0;
+      color: #ffffff;
+      transform: translateY(6px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .letter.revealed {
+      opacity: 3;
+      transform: translateY(0);
+    }
+
+    .ball {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #ffffff;
+      top: -40px;              /* SEMAKIN kecil -> makin dekat dengan teks */
+      left: 0;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    }
+
+    .ball::before,
+    .ball::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      border: 2px solid #000000;
+      opacity: 0.65;
+    }
+
+    .ball::after {
+      inset: 9px;
+    }
+  </style>
+</head>
+<body>
+  <div class="loader-wrapper">
+    <div class="word" id="word"></div>
+    <div class="ball" id="ball"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script>
+    const TEXT = "CHEKVARNOW";
+
+    const wordEl = document.getElementById("word");
+    const ballEl = document.getElementById("ball");
+
+    wordEl.innerHTML = TEXT
+      .split("")
+      .map((ch, i) => `<span class="letter" data-idx="${i}">${ch}</span>`)
+      .join("");
+
+    const letters = Array.from(document.querySelectorAll(".letter"));
+
+    window.addEventListener("load", () => {
+      // posisi bola relatif ke teks
+      const topStart = -30;  // awal di atas huruf (lebih dekat)
+      const hitY = 1;       // titik kena huruf
+
+      const positions = letters.map(l => {
+        return l.offsetLeft + l.offsetWidth / 2;
+      });
+
+      const tl = anime.timeline({
+        autoplay: true,
+        loop: true
+      });
+
+      positions.forEach((x, index) => {
+        tl.add({
+          targets: ballEl,
+          translateX: x,
+          translateY: [topStart, hitY],
+          duration: 420,
+          easing: "easeInQuad",
+          begin: () => {
+            if (index > 0) {
+              letters[index - 1].classList.add("revealed");
+            }
+          },
+          complete: () => {
+            letters[index].classList.add("revealed");
+          }
+        }).add({
+          targets: ballEl,
+          translateY: [hitY, topStart],
+          duration: 360,
+          easing: "easeOutQuad"
+        });
+      });
+
+      tl.add({
+        duration: 600,
+        complete: () => {
+          letters.forEach(l => l.classList.remove("revealed"));
+        }
+      });
+    });
+  </script>
+</body>
+</html>

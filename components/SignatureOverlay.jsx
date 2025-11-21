@@ -8,6 +8,26 @@ export default function SignatureOverlay({ heroRef }) {
   const [active, setActive] = useState(false);
   const lengthsRef = useRef([]);
 
+  function setupPaths() {
+    const el = containerRef.current;
+    if (!el) return;
+    const paths = el.querySelectorAll("path, polyline, line");
+    lengthsRef.current = [];
+    paths.forEach((p, i) => {
+      try {
+        const length = p.getTotalLength ? p.getTotalLength() : 600;
+        p.style.strokeDasharray = `${length}`;
+        p.style.strokeDashoffset = `${length}`;
+        p.style.stroke = p.style.stroke || "#facc15";
+        p.style.fill = p.style.fill || "#facc15";
+        p.style.fillOpacity = "0";
+        p.style.strokeWidth = p.style.strokeWidth || "4";
+        p.style.vectorEffect = "non-scaling-stroke";
+        lengthsRef.current[i] = length;
+      } catch (_) {}
+    });
+  }
+
   useEffect(() => {
     let cancelled = false;
     async function load() {
@@ -39,26 +59,6 @@ export default function SignatureOverlay({ heroRef }) {
       cancelled = true;
     };
   }, []);
-
-  function setupPaths() {
-    const el = containerRef.current;
-    if (!el) return;
-    const paths = el.querySelectorAll("path, polyline, line");
-    lengthsRef.current = [];
-    paths.forEach((p, i) => {
-      try {
-        const length = p.getTotalLength ? p.getTotalLength() : 600;
-        p.style.strokeDasharray = `${length}`;
-        p.style.strokeDashoffset = `${length}`;
-        p.style.stroke = p.style.stroke || "#facc15";
-        p.style.fill = p.style.fill || "#facc15";
-        p.style.fillOpacity = "0";
-        p.style.strokeWidth = p.style.strokeWidth || "4";
-        p.style.vectorEffect = "non-scaling-stroke";
-        lengthsRef.current[i] = length;
-      } catch (_) {}
-    });
-  }
 
   // Bind progress to hero scroll (0..1).
   useEffect(() => {

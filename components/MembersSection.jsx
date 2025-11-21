@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import Image from "next/image";
+import { useRef, useState } from "react";
 import useCounterZoom from "./hooks/useCounterZoom";
 import MemberCard from "./members/MemberCard";
 import { MEMBERS } from "../config/ui";
