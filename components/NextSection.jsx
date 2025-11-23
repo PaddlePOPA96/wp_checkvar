@@ -3,23 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { startPerlinTopography } from "../lib/perlinTopography";
 import { PERLIN_LINE_COLOR } from "../config/ui";
+import SponsorMarquee from "./SponsorMarquee";
 
 const FALLBACK_PLAYLIST = "https://www.youtube.com/embed?listType=playlist&list=UU3AuMqMDz9h8Fbgv_gvrTng";
-const SPONSORS = ["xerox", "reuters", "bestseller", "zoom", "teleperformance", "heineken", "spotify", "figma"];
-
-function SponsorMark({ label }) {
-  return (
-    <div className="sponsor-pill" aria-label={label}>
-      <svg viewBox="0 0 120 26" role="img" aria-hidden="true" focusable="false">
-        <rect x="4" y="6" width="112" height="14" rx="7" ry="7" opacity="0.12" />
-        <circle cx="18" cy="13" r="6" />
-        <text x="34" y="17" textLength="78" lengthAdjust="spacingAndGlyphs">
-          {label}
-        </text>
-      </svg>
-    </div>
-  );
-}
 
 export default function NextSection({ videos = [], channelUrl }) {
   const canvasRef = useRef(null);
@@ -30,6 +16,10 @@ export default function NextSection({ videos = [], channelUrl }) {
     if (primaryVideo?.embedUrl) return `${primaryVideo.embedUrl}?rel=0&modestbranding=1`;
     return `${FALLBACK_PLAYLIST}&rel=0&modestbranding=1`;
   }, [primaryVideo]);
+
+  // Render iframe hanya setelah mount di client untuk menghindari biaya di server render
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -49,7 +39,7 @@ export default function NextSection({ videos = [], channelUrl }) {
 
   const embedClass = "video-embed";
   const stageClass = showList ? "video-stage video-stage--with-rail" : "video-stage";
-  const railClass = showList ? "video-rail" : "video-rail video-rail--hidden";
+  const railClass = "video-rail";
 
   return (
     <section className="layer-black-section video-layer" style={{ position: "relative" }}>
@@ -69,34 +59,38 @@ export default function NextSection({ videos = [], channelUrl }) {
           </div>
           <div className={stageClass}>
             <div className={embedClass}>
-            <iframe
-              src={embedSrc}
-              title={primaryVideo?.title || "Checkvar terbaru"}
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              loading="lazy"
-            />
-            <div className="video-curve" aria-hidden />
-          </div>
+              {mounted && (
+                <iframe
+                  src={embedSrc}
+                  title={primaryVideo?.title || "Checkvar terbaru"}
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                />
+              )}
+              <div className="video-curve" aria-hidden />
+            </div>
 
             <div className={railClass} id="last-tracks" aria-hidden={!showList}>
-              {videos.slice(0, 3).map((vid) => (
-                <a key={vid.id} href={vid.url} target="_blank" rel="noreferrer" className="video-rail__item">
-                  <div className="video-rail__thumb">
-                    {vid.thumbnail ? (
-                      <img src={vid.thumbnail} alt={vid.title} loading="lazy" />
-                    ) : (
-                      <div className="thumb-fallback" aria-hidden />
-                    )}
-                    <span className="video-chip">New</span>
-                  </div>
-                  <div className="video-rail__body">
-                    <div className="video-rail__title">{vid.title}</div>
-                    <div className="video-rail__meta">{new Date(vid.published || Date.now()).toLocaleDateString("id-ID")}</div>
-                  </div>
-                </a>
-              ))}
-              {videos.length === 0 && <div className="video-rail__empty">Belum ada video</div>}
+              <div style={{ padding: "6px" }}>
+                {videos.slice(0, 3).map((vid) => (
+                  <a key={vid.id} href={vid.url} target="_blank" rel="noreferrer" className="video-rail__item">
+                    <div className="video-rail__thumb">
+                      {vid.thumbnail ? (
+                        <img src={vid.thumbnail} alt={vid.title} loading="lazy" />
+                      ) : (
+                        <div className="thumb-fallback" aria-hidden />
+                      )}
+                      <span className="video-chip">New</span>
+                    </div>
+                    <div className="video-rail__body">
+                      <div className="video-rail__title">{vid.title}</div>
+                      <div className="video-rail__meta">{new Date(vid.published || Date.now()).toLocaleDateString("id-ID")}</div>
+                    </div>
+                  </a>
+                ))}
+                {videos.length === 0 && <div className="video-rail__empty">Belum ada video</div>}
+              </div>
             </div>
           </div>
 
@@ -118,13 +112,7 @@ export default function NextSection({ videos = [], channelUrl }) {
           )}
         </div>
 
-        <div className="sponsor-marquee" aria-label="Sponsor logo ticker">
-          <div className="sponsor-track">
-            {[...SPONSORS, ...SPONSORS].map((s, idx) => (
-              <SponsorMark key={`${s}-${idx}`} label={s} />
-            ))}
-          </div>
-        </div>
+        <SponsorMarquee />
       </div>
     </section>
   );

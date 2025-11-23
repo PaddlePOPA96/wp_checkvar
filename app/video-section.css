@@ -20,7 +20,7 @@
   position: relative;
   width: 100%;
   max-width: 1280px;
-  min-width: clamp(320px, 90vw, 1100px);
+  min-width: clamp(320px, 80vw, 1100px);
   margin: 0 auto;
   padding: 20px;
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
@@ -57,23 +57,14 @@
 
 .video-embed {
   position: relative;
-  width: 100%;
-  max-width: 1100px;
+  width: min(100%, 1100px);
+  margin: 0 auto;
   border-radius: 22px;
   overflow: hidden;
   background: #0b1120;
-  transition: transform 0.22s ease, opacity 0.22s ease;
+  transition: all 0.4s ease;
   box-shadow: 0 20px 55px rgba(0, 0, 0, 0.45);
   height: auto;
-}
-
-.video-embed--compact {
-  transform: none;
-  opacity: 1;
-}
-
-.video-stage--with-rail .video-embed {
-  max-width: none;
 }
 
 .video-embed iframe {
@@ -99,42 +90,59 @@
 
 .video-stage {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
-  align-items: stretch;
+  grid-template-columns: 1fr 0fr;
+  gap: 0;
+  align-items: start;
   justify-items: center;
-  transition: grid-template-columns 0.24s ease;
+  transition: grid-template-columns 0.4s cubic-bezier(0.4, 0, 0.2, 1), gap 0.4s ease;
+  width: 100%;
 }
 
 .video-stage--with-rail {
-  grid-template-columns: 1fr 200px;
+  grid-template-columns: 1fr 220px;
+  gap: 14px;
   justify-items: stretch;
+}
+
+.video-stage:not(.video-stage--with-rail) .video-rail {
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .video-rail {
   display: grid;
-  gap: 8px;
+  gap: 6px;
   height: 100%;
   max-height: 100%;
   overflow: hidden;
-  padding: 8px 6px;
   background: rgba(255, 255, 255, 0.04);
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: transform 0.25s ease, opacity 0.25s ease;
-  transform-origin: center;
-  transform: translateX(0);
+  opacity: 0;
+  transition: opacity 0.3s ease 0s;
+  min-width: 220px;
+  width: 220px;
+  padding: 0;
+}
+
+.video-stage--with-rail .video-rail {
   opacity: 1;
+  padding: 6px 4px;
+  transition: opacity 0.3s ease 0.1s;
 }
 
 .video-rail--hidden {
-  display: none;
+  pointer-events: none;
+  border: none;
 }
 
 .video-rail__item {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 4px;
+  gap: 3px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
   overflow: hidden;
@@ -158,7 +166,7 @@
 }
 
 .video-rail__body {
-  padding: 5px 7px 7px;
+  padding: 4px 6px 6px;
   display: grid;
   gap: 2px;
 }
@@ -166,13 +174,13 @@
 .video-rail__title {
   font-weight: 700;
   letter-spacing: 0.01em;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   line-height: 1.15;
 }
 
 .video-rail__meta {
   color: #cbd5e1;
-  font-size: 0.74rem;
+  font-size: 0.7rem;
 }
 
 .video-toggle {

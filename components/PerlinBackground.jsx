@@ -11,6 +11,12 @@ export default function PerlinBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Hormati preferensi reduced motion untuk meringankan render
+    const prefersReduce = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduce) {
+      return undefined;
+    }
+
     const cleanup = startPerlinTopography(canvas, {
       lineColor: PERLIN_LINE_COLOR,
     });

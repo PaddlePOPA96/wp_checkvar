@@ -90,12 +90,12 @@ function MatchCard({ m, index }: { m: Match; index: number }) {
       </div>
       <div className={styles.row}>
         <div className={styles.team}>
-          {resolveLogo(m.home_team.logo_url) && <img src={resolveLogo(m.home_team.logo_url)} alt={m.home_team.name} />}
+          {resolveLogo(m.home_team.logo_url) && <img src={resolveLogo(m.home_team.logo_url)} alt={m.home_team.name} loading="lazy" />}
           <span>{m.home_team.name}</span>
         </div>
         <Score match={m} />
         <div className={styles.team}>
-          {resolveLogo(m.away_team.logo_url) && <img src={resolveLogo(m.away_team.logo_url)} alt={m.away_team.name} />}
+          {resolveLogo(m.away_team.logo_url) && <img src={resolveLogo(m.away_team.logo_url)} alt={m.away_team.name} loading="lazy" />}
           <span>{m.away_team.name}</span>
         </div>
       </div>

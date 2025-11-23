@@ -36,8 +36,8 @@ export default function Hero({ videos = [], channelUrl }) {
             <div className="hero-box-inner">
               {(() => { const base = process.env.NEXT_PUBLIC_BASE_PATH || ""; return (
                 <>
-                  <Image src={`${base}/images/bg.jpg`} alt="Locker room" fill className="hero-box-bg" priority unoptimized />
-                  <Image src={`${base}/images/scene.png`} alt="Scene base" fill className="hero-box-scene" priority unoptimized />
+                  <Image src={`${base}/images/bg.webp`} alt="Locker room" fill className="hero-box-bg" priority unoptimized />
+                  <Image src={`${base}/images/scene.webp`} alt="Scene base" fill className="hero-box-scene" priority unoptimized />
                 </>
               ); })()}
               {/* SVG goo removed; FluidReveal handles reveal */}

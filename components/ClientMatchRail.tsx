@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import styles from "../app/home-rail.module.css";
 
 type Team = { name: string; logo_url?: string; score?: number | null };
@@ -30,13 +30,17 @@ export default function ClientMatchRail({
   emptyMessage: string;
 }) {
   const [progress, setProgress] = useState(0);
+  const [fullyHidden, setFullyHidden] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
       const hideStart = 0;
-      const hideEnd = 320; // px scroll distance to fully slide out
+      const hideEnd = 520; // px scroll distance to begin fade/slide
       const p = Math.min(1, Math.max(0, (window.scrollY - hideStart) / (hideEnd - hideStart)));
       setProgress(p);
+      // Saat melewati hero+member (>= 1.2 viewport), sembunyikan total
+      const cutoff = window.innerHeight * 1.2;
+      setFullyHidden(window.scrollY > cutoff);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -49,9 +53,10 @@ export default function ClientMatchRail({
     return `${logoBase}/${url.replace(/^\//, "")}`;
   };
 
-  const slideStyle = {
-    transform: `translate(-50%, 0) translateX(-${progress * 120}%)`,
-    opacity: 1 - progress * 0.7,
+  const slideStyle: CSSProperties = {
+    transform: fullyHidden ? "translate(-200%, 0)" : `translate(calc(-50% - ${progress * 120}%), 0)`,
+    opacity: fullyHidden ? 0 : 1 - progress * 0.8,
+    pointerEvents: fullyHidden ? "none" : "auto",
   };
 
   const source = matches.length ? matches : [];

@@ -22,7 +22,7 @@ export default function FluidReveal({ heroRef }) {
 
     const img = new Image();
     const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
-    img.src = `${base}/images/scene1.png`;
+    img.src = `${base}/images/scene1.webp`;
 
     let width = 0, height = 0, dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
 
