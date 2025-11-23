@@ -3,11 +3,13 @@ import styles from "./home-rail.module.css";
 import ClientMatchRail from "../components/ClientMatchRail";
 
 const LOGO_BASE = process.env.NEXT_PUBLIC_LOGO_BASE || "https://backend-wp-checkvar-7o54.vercel.app";
+const YT_CHANNEL_ID = "UC3AuMqMDz9h8Fbgv_gvrTng";
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 type Team = { name: string; logo_url?: string; score?: number | null };
 type Match = { id: string; date: string; competition: string; home_team: Team; away_team: Team };
 type ApiResp = { today_matches: Match[]; last_matches: Match[]; next_matches: Match[]; last_updated: string };
+type VideoItem = { id: string; title: string; published: string; thumbnail: string; url: string; embedUrl: string };
 
 async function getMatches(): Promise<ApiResp> {
   const res = await fetch("https://backend-wp-checkvar-7o54.vercel.app/api/matches", {
@@ -53,6 +55,39 @@ function pickPriorityMatches(data: ApiResp | null) {
   const next7 = filterWindow(data.next_matches || [], 1, 7);
   if (next7.length) return next7;
   return filterWindow(data.next_matches || [], 8, 14);
+}
+
+async function getLatestVideos(limit = 3): Promise<VideoItem[]> {
+  try {
+    const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${YT_CHANNEL_ID}`, {
+      next: { revalidate: 900 },
+    });
+    if (!res.ok) return [];
+    const xml = await res.text();
+    const entries = xml.split("<entry>").slice(1);
+    const videos: VideoItem[] = [];
+    for (const raw of entries) {
+      const entry = `<entry>${raw}`;
+      const id = entry.match(/<yt:videoId>([^<]+)</)?.[1];
+      const title = entry.match(/<title>([^<]+)</)?.[1];
+      const thumb = entry.match(/media:thumbnail[^>]+url="([^"]+)"/)?.[1];
+      const published = entry.match(/<published>([^<]+)</)?.[1] || "";
+      if (!id || !title) continue;
+      videos.push({
+        id,
+        title,
+        published,
+        thumbnail: thumb || "",
+        url: `https://www.youtube.com/watch?v=${id}`,
+        embedUrl: `https://www.youtube.com/embed/${id}`,
+      });
+      if (videos.length >= limit) break;
+    }
+    return videos;
+  } catch (err) {
+    console.error("Failed to fetch youtube feed", err);
+    return [];
+  }
 }
 
 function formatDateLabel(date: string) {
@@ -109,6 +144,7 @@ export default async function HomePage() {
   } catch (err) {
     console.error("Failed to load matches", err);
   }
+  const videos = await getLatestVideos();
 
   const priorityMatches = pickPriorityMatches(data);
   const hasToday = filterWindow([...((data && data.today_matches) || []), ...((data && data.next_matches) || [])], 0, 0).length > 0;
@@ -126,7 +162,7 @@ export default async function HomePage() {
         logoBase={LOGO_BASE}
         emptyMessage={`Belum ada pertandingan hari ini. ${fallbackMessage}`}
       />
-      <Hero />
+      <Hero videos={videos} channelUrl="https://www.youtube.com/@checkvarnow/streams" />
     </main>
   );
 }

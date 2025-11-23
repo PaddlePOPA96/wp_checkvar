@@ -10,7 +10,7 @@ import SignatureOverlay from "./SignatureOverlay";
 import { MARQUEE_TEXTS } from "../config/ui";
 import FluidReveal from "./FluidReveal";
 
-export default function Hero() {
+export default function Hero({ videos = [], channelUrl }) {
   const rangeRef = useRef(null); // wrapper 2 layar (section 1 + section 2)
   const heroBoxRef = useRef(null); // satu-satunya hero
   const heroZoomRef = useRef(null);
@@ -57,7 +57,7 @@ export default function Hero() {
       <MembersSection />
 
       {/* Section 4: Layer khusus dengan Perlin abu-abu */}
-      <NextSection />
+      <NextSection videos={videos} channelUrl={channelUrl} />
     </section>
   );
 }

@@ -2,6 +2,7 @@
 import "./globals.css";
 import "./hero.css";
 import "./sections.css";
+import "./video-section.css";
 import PerlinBackground from "../components/PerlinBackground";
 import AnimatedLogo from "../components/AnimatedLogo";
 
